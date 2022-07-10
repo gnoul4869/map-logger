@@ -10,7 +10,7 @@ navigator.geolocation.getCurrentPosition(
 </script>
 
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="menu">
             <h1 class="title">Map Logger</h1>
         </div>
@@ -21,17 +21,18 @@ navigator.geolocation.getCurrentPosition(
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
 
-.container {
+.container-fluid {
     display: grid;
     grid-template-columns: 30% 70%;
     gap: 0;
     height: 100vh;
-    padding: 2rem;
-    margin: 0 auto;
+    padding: 1rem;
     color: $fa-white;
 
     .menu {
         background-color: $metal-black;
+        border-top-left-radius: 0.625rem;
+        border-bottom-left-radius: 0.625rem;
 
         .title {
             padding: 1rem;
@@ -46,8 +47,9 @@ navigator.geolocation.getCurrentPosition(
     }
 
     .map {
-        // background-color: #201f1c;
         background-color: $slite-black;
+        border-top-right-radius: 0.625rem;
+        border-bottom-right-radius: 0.625rem;
     }
 }
 </style>
