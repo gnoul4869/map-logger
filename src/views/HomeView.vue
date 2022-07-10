@@ -1,33 +1,46 @@
 <script setup lang="ts">
+/*global L*/
+
 navigator.geolocation.getCurrentPosition(
     (position) => {
-        console.log(position);
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+
+        const map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        L.marker([51.5, -0.09]).addTo(map).bindPopup('A pretty CSS3 popup.<br> Easily customizable.').openPopup();
     },
-    (error) => {
-        console.log(error);
+    () => {
+        alert('Could not get your position');
     }
 );
 </script>
 
 <template>
-    <div class="container-fluid">
+    <div class="wrapper">
         <div class="menu">
             <h1 class="title">Map Logger</h1>
         </div>
-        <div class="map"></div>
+        <div id="map"></div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
 
-.container-fluid {
+.wrapper {
     display: grid;
     grid-template-columns: 30% 70%;
     gap: 0;
     height: 100vh;
     padding: 1rem;
     color: $fa-white;
+    background-color: $dark;
 
     .menu {
         background-color: $metal-black;
@@ -40,13 +53,13 @@ navigator.geolocation.getCurrentPosition(
             font-weight: bold;
             text-align: center;
 
-            &::first-letter {
+            &:first-letter {
                 color: coral;
             }
         }
     }
 
-    .map {
+    #map {
         background-color: $slite-black;
         border-top-right-radius: 0.625rem;
         border-bottom-right-radius: 0.625rem;
