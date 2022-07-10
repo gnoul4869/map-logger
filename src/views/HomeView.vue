@@ -11,26 +11,43 @@ navigator.geolocation.getCurrentPosition(
 
 <template>
     <div class="container">
-        <div class="menu"></div>
+        <div class="menu">
+            <h1 class="title">Map Logger</h1>
+        </div>
         <div class="map"></div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/variables';
+
 .container {
     display: grid;
-    grid-template-columns: 2;
+    grid-template-columns: 30% 70%;
+    gap: 0;
+    height: 100vh;
+    padding: 2rem;
+    margin: 0 auto;
+    color: $fa-white;
 
     .menu {
-        width: 200px;
-        height: 100%;
-        background-color: red;
+        background-color: $metal-black;
+
+        .title {
+            padding: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+
+            &::first-letter {
+                color: coral;
+            }
+        }
     }
 
     .map {
-        width: 500px;
-        height: 100%;
-        background-color: coral;
+        // background-color: #201f1c;
+        background-color: $slite-black;
     }
 }
 </style>
