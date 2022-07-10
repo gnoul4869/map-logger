@@ -1,5 +1,5 @@
 <script setup lang="ts">
-/*global L*/
+import L from 'leaflet';
 
 navigator.geolocation.getCurrentPosition(
     (position) => {
@@ -35,7 +35,7 @@ navigator.geolocation.getCurrentPosition(
 
 .wrapper {
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 20% 80%;
     gap: 0;
     height: 100vh;
     padding: 1rem;
