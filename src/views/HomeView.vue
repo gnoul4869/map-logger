@@ -9,6 +9,28 @@ navigator.geolocation.getCurrentPosition(
 );
 </script>
 
-<template></template>
+<template>
+    <div class="container">
+        <div class="menu"></div>
+        <div class="map"></div>
+    </div>
+</template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+    display: grid;
+    grid-template-columns: 2;
+
+    .menu {
+        width: 200px;
+        height: 100%;
+        background-color: red;
+    }
+
+    .map {
+        width: 500px;
+        height: 100%;
+        background-color: coral;
+    }
+}
+</style>

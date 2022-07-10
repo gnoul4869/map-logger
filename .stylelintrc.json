@@ -1,0 +1,12 @@
+{
+    "extends": [
+        "stylelint-config-prettier-scss",
+        "stylelint-config-recommended-scss",
+        "stylelint-config-recommended-vue/scss",
+        "stylelint-config-recess-order"
+    ],
+    "plugins": ["stylelint-order"],
+    "rules": {
+        "scss/at-rule-no-unknown": null
+    }
+}
