@@ -1,25 +1,38 @@
 <script setup lang="ts">
+import { onMounted, ref, watch } from 'vue';
 import L, { type LatLngExpression } from 'leaflet';
+import { computed } from 'vue';
 
-navigator.geolocation.getCurrentPosition(
-    (position) => {
-        const latitude: number = position.coords.latitude;
-        const longitude: number = position.coords.longitude;
+const latitude = ref(9.284059);
+const longitude = ref(105.724953);
+const coordinates = computed<LatLngExpression>(() => [latitude.value, longitude.value]);
 
-        const coordinates: LatLngExpression = [latitude, longitude];
+const initializeMap = () => {
+    const map = L.map('map').setView(coordinates.value, 16);
 
-        const map = L.map('map').setView(coordinates, 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
+    L.marker(coordinates.value).addTo(map).bindPopup('A pretty CSS3 popup.<br> Easily customizable.').openPopup();
+};
 
-        L.marker(coordinates).addTo(map).bindPopup('A pretty CSS3 popup.<br> Easily customizable.').openPopup();
-    },
-    () => {
-        alert('Could not get your position');
-    }
-);
+watch(coordinates, () => {
+    initializeMap();
+});
+
+onMounted(() => {
+    navigator.geolocation?.getCurrentPosition(
+        (position) => {
+            latitude.value = position.coords.latitude;
+            longitude.value = position.coords.longitude;
+        },
+        () => {
+            initializeMap();
+            alert('Could not get your position');
+        }
+    );
+});
 </script>
 
 <template>
@@ -61,7 +74,7 @@ navigator.geolocation.getCurrentPosition(
     }
 
     #map {
-        background-color: $slite-black;
+        background-color: $raisin-black;
         border-top-right-radius: 0.625rem;
         border-bottom-right-radius: 0.625rem;
     }
