@@ -12,7 +12,12 @@ const label = ref('');
 const form = ref<HTMLFormElement>();
 const labelInput = ref<HTMLFormElement>();
 
-onClickOutside(form, () => setTimeout(() => mapStore.toggleForm(false), 0));
+const clearForm = (): void => {
+    label.value = '';
+    mapStore.toggleForm(false);
+};
+
+onClickOutside(form, () => setTimeout(() => clearForm(), 0));
 
 watch(showForm, async () => {
     if (showForm.value) {
@@ -21,7 +26,7 @@ watch(showForm, async () => {
     }
 });
 
-const submitHandler = () => {
+const submitHandler = (): void => {
     if (map.value && mapEvent.value) {
         const customPopup = L.popup({
             autoClose: false,
@@ -37,20 +42,21 @@ const submitHandler = () => {
             .setPopupContent(label.value)
             .openPopup();
 
-        label.value = '';
-        mapStore.toggleForm(false);
+        clearForm();
     }
 };
 </script>
 
 <template>
-    <form v-if="showForm" ref="form" autocomplete="off" @submit.prevent="submitHandler">
-        <div class="block">
-            <label for="label">Label</label>
-            <input id="label" ref="labelInput" v-model="label" type="text" />
-        </div>
-        <button type="submit" :disabled="!label">Add</button>
-    </form>
+    <Transition name="visibility">
+        <form v-if="showForm" ref="form" autocomplete="off" @submit.prevent="submitHandler">
+            <div class="block">
+                <label for="label">Label</label>
+                <input id="label" ref="labelInput" v-model="label" type="text" />
+            </div>
+            <button type="submit" :disabled="!label">Add</button>
+        </form>
+    </Transition>
 </template>
 
 <style lang="scss" scoped>

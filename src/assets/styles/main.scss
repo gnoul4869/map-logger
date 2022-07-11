@@ -7,3 +7,14 @@
 * {
     font-family: 'Inter', sans-serif;
 }
+
+.visibility-enter-active,
+.visibility-leave-active {
+    transition: all 0.35s ease-out;
+    transition-property: opacity, visibility;
+}
+.visibility-enter-from,
+.visibility-leave-to {
+    visibility: hidden;
+    opacity: 0;
+}
