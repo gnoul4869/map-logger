@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import UserMenu from '@/components/UserMenu.vue';
+import MenuPanel from '@/components/MenuPanel.vue';
 import LeafletMap from '@/components/LeafletMap.vue';
+import FormModal from '@/components/FormModal.vue';
 </script>
 
 <template>
     <div class="wrapper">
-        <UserMenu />
+        <MenuPanel />
         <LeafletMap />
+        <FormModal />
     </div>
 </template>
 

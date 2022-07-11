@@ -16,8 +16,10 @@ const initializeMap = (latitude: number, longtitude: number): void => {
     }).addTo(mapStore.map as L.Map);
 
     mapStore.map.on('click', (mE) => {
-        mapStore.setMapEvent(mE);
-        mapStore.toggleForm(true);
+        if (!mapStore.showForm) {
+            mapStore.setMapEvent(mE);
+            mapStore.toggleForm(true);
+        }
     });
 };
 
