@@ -1,3 +1,9 @@
+@import 'variables';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    font-family: 'Inter', sans-serif;
+}

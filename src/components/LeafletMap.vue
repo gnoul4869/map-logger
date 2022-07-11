@@ -1,49 +1,37 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import L, { type LatLngExpression } from 'leaflet';
-import { computed } from 'vue';
+import L from 'leaflet';
+import { onMounted } from 'vue';
+import { useMapStore } from '@/stores/useMapStore';
 
-const latitude = ref(9.284059);
-const longitude = ref(105.724953);
-const coordinates = computed<LatLngExpression>(() => [latitude.value, longitude.value]);
+const mapStore = useMapStore();
 
-const initializeMap = () => {
-    const map = L.map('map').setView(coordinates.value, 16);
+const DEFAULT_LATITUDE = 9.284059;
+const DEFAULT_LONGITUDE = 105.724953;
+
+const initializeMap = (latitude: number, longtitude: number): void => {
+    mapStore.map = L.map('map').setView([latitude, longtitude], 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+    }).addTo(mapStore.map as L.Map);
 
-    map.on('click', (mapEvent) => {
-        console.log(mapEvent);
-
-        latitude.value = mapEvent.latlng.lat;
-        longitude.value = mapEvent.latlng.lng;
-
-        const customPopup = L.popup({
-            autoClose: false,
-            className: 'popup',
-            closeOnClick: false,
-            maxHeight: 30,
-            maxWidth: 300,
-        });
-
-        L.marker(coordinates.value).addTo(map).bindPopup(customPopup).setPopupContent('Hello world').openPopup();
+    mapStore.map.on('click', (mE) => {
+        mapStore.setMapEvent(mE);
+        mapStore.toggleForm(true);
     });
 };
 
 onMounted(() => {
     navigator.geolocation?.getCurrentPosition(
         (position) => {
-            latitude.value = position.coords.latitude;
-            longitude.value = position.coords.longitude;
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            initializeMap(latitude, longitude);
         },
         () => {
-            alert('Could not get your position');
+            initializeMap(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
         }
     );
-
-    initializeMap();
 });
 </script>
 
