@@ -65,8 +65,8 @@ form {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1.25rem 1rem;
-    background-color: $davy-grey;
+    padding: 1.5rem;
+    background-color: $outer-space;
     border-radius: 0.625rem;
     transform: translate(-50%, -50%);
     @apply shadow-2xl;
@@ -87,6 +87,7 @@ form {
         margin-top: 30px;
         background-color: coral;
         border-radius: 5px;
+        outline: none;
         transition: background-color 150ms ease-in-out;
 
         &:hover,
@@ -96,9 +97,9 @@ form {
 
         &:disabled,
         &:disabled:hover {
-            color: $raisin-black;
+            color: $davy-grey;
             cursor: not-allowed;
-            background-color: $slite-black;
+            background-color: $metal-black;
         }
     }
 }
