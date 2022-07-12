@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import L from 'leaflet';
+import { ref, watch, nextTick } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { useMapStore } from '@/stores/useMapStore';
-import { ref, watch, nextTick } from 'vue';
+import { useMap } from '@/composables/useMap';
 
 const mapStore = useMapStore();
-const { map, mapEvent, showForm } = storeToRefs(mapStore);
+const { showLocationLog } = storeToRefs(mapStore);
+const { addMarker } = useMap();
 
 const label = ref('');
 const form = ref<HTMLFormElement>();
@@ -19,29 +20,16 @@ const clearForm = (): void => {
 
 onClickOutside(form, () => setTimeout(() => clearForm(), 0));
 
-watch(showForm, async () => {
-    if (showForm.value) {
+watch(showLocationLog, async () => {
+    if (showLocationLog.value) {
         await nextTick();
         labelInput.value?.focus();
     }
 });
 
 const submitHandler = (): void => {
-    if (map.value && mapEvent.value) {
-        const customPopup = L.popup({
-            autoClose: false,
-            className: 'popup',
-            closeOnClick: false,
-            maxHeight: 30,
-            maxWidth: 300,
-        });
-
-        L.marker([mapEvent.value.latlng.lat, mapEvent.value.latlng.lng])
-            .addTo(mapStore.map as L.Map)
-            .bindPopup(customPopup)
-            .setPopupContent(label.value)
-            .openPopup();
-
+    if (label.value) {
+        addMarker(label.value);
         clearForm();
     }
 };
@@ -49,7 +37,7 @@ const submitHandler = (): void => {
 
 <template>
     <Transition name="visibility">
-        <form v-if="showForm" ref="form" autocomplete="off" @submit.prevent="submitHandler">
+        <form v-if="showLocationLog" ref="form" autocomplete="off" @submit.prevent="submitHandler">
             <h2>Location log</h2>
             <div class="block">
                 <label for="label">Label</label>

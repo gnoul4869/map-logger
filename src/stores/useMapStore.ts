@@ -3,13 +3,13 @@ import { defineStore } from 'pinia';
 interface MapState {
     map: L.Map | null;
     mapEvent: L.LeafletMouseEvent | null;
-    showForm: boolean;
+    showLocationLog: boolean;
 }
 
 const state = (): MapState => ({
     map: null,
     mapEvent: null,
-    showForm: false,
+    showLocationLog: false,
 });
 
 const getters = {};
@@ -24,7 +24,7 @@ const actions = {
         return this;
     },
     toggleForm(value: boolean) {
-        this.showForm = value;
+        this.showLocationLog = value;
         return this;
     },
 };

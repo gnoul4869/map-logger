@@ -1,27 +1,8 @@
 <script setup lang="ts">
-import L from 'leaflet';
 import { onMounted } from 'vue';
-import { useMapStore } from '@/stores/useMapStore';
+import { useMap } from '@/composables/useMap';
 
-const mapStore = useMapStore();
-
-const DEFAULT_LATITUDE = 9.284059;
-const DEFAULT_LONGITUDE = 105.724953;
-
-const initializeMap = (latitude: number, longtitude: number): void => {
-    mapStore.map = L.map('map').setView([latitude, longtitude], 16);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(mapStore.map as L.Map);
-
-    mapStore.map.on('click', (mE) => {
-        if (!mapStore.showForm) {
-            mapStore.setMapEvent(mE);
-            mapStore.toggleForm(true);
-        }
-    });
-};
+const { initializeMap } = useMap();
 
 onMounted(() => {
     navigator.geolocation?.getCurrentPosition(
@@ -31,7 +12,7 @@ onMounted(() => {
             initializeMap(latitude, longitude);
         },
         () => {
-            initializeMap(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
+            initializeMap();
         }
     );
 });
