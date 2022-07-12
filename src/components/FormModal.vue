@@ -50,9 +50,10 @@ const submitHandler = (): void => {
 <template>
     <Transition name="visibility">
         <form v-if="showForm" ref="form" autocomplete="off" @submit.prevent="submitHandler">
+            <h2>Location log</h2>
             <div class="block">
                 <label for="label">Label</label>
-                <input id="label" ref="labelInput" v-model="label" type="text" />
+                <input id="label" ref="labelInput" v-model="label" type="text" placeholder="An interesting location..." />
             </div>
             <button type="submit" :disabled="!label">Add</button>
         </form>
@@ -77,6 +78,17 @@ form {
     transform: translate(-50%, -50%);
     @apply shadow-2xl;
 
+    h2 {
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: $fa-white;
+
+        &::first-letter {
+            font-weight: 900;
+            color: coral;
+        }
+    }
+
     label {
         margin-right: 0.9375rem;
     }
@@ -86,6 +98,10 @@ form {
         color: $slite-black;
         border-radius: 0.5rem;
         outline: none;
+
+        &::placeholder {
+            font-size: 0.9375rem;
+        }
     }
 
     button[type='submit'] {

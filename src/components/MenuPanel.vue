@@ -22,7 +22,7 @@
         color: $fa-white;
         text-align: center;
 
-        &:first-letter {
+        &::first-letter {
             color: coral;
         }
     }
