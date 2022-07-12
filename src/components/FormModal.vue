@@ -4,6 +4,7 @@ import { onClickOutside } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { useMapStore } from '@/stores/useMapStore';
 import { useMap } from '@/composables/useMap';
+import ColorPicker from '@/components/ColorPicker.vue';
 
 const mapStore = useMapStore();
 const { showLocationLog } = storeToRefs(mapStore);
@@ -45,6 +46,7 @@ const submitHandler = (): void => {
             </div>
             <div class="option">
                 <label for="color">Color</label>
+                <ColorPicker />
             </div>
             <button type="submit" :disabled="!label">Add</button>
         </form>
