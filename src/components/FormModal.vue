@@ -19,7 +19,12 @@ const clearForm = (): void => {
     mapStore.toggleForm(false);
 };
 
-onClickOutside(form, () => setTimeout(() => clearForm(), 0));
+onClickOutside(form, (): void => {
+    const IsColorPickerHidden = !document.querySelector('.pcr-app.visible');
+    if (IsColorPickerHidden) {
+        setTimeout(() => clearForm(), 0);
+    }
+});
 
 watch(showLocationLog, async () => {
     if (showLocationLog.value) {
@@ -45,11 +50,11 @@ const submitHandler = (): void => {
                 <input id="label" ref="labelInput" v-model="label" type="text" placeholder="An interesting location..." />
             </div>
             <div class="option">
-                <label for="color">Color</label>
-                <ColorPicker />
+                <label for="color-picker">Color</label>
+                <ColorPicker id="color-picker" />
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 ml-2 fill-purple-400"
+                    class="h-6 w-6 ml-2 fill-taupe-gray cursor-pointer"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                 >
@@ -60,6 +65,7 @@ const submitHandler = (): void => {
                     />
                 </svg>
             </div>
+
             <button type="submit" :disabled="!label">Add</button>
         </form>
     </Transition>
@@ -102,7 +108,7 @@ form {
     }
 
     label {
-        margin-right: 0.9375rem;
+        width: 3.75rem;
     }
 
     input {
