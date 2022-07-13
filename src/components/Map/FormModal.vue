@@ -82,7 +82,7 @@ form {
     z-index: 9999;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     justify-content: center;
     padding: 1.5rem;
     background-color: $outer-space;
