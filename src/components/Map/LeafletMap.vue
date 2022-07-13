@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useMap } from '@/composables/useMap';
+import FormModal from '@/components/Map/FormModal.vue';
 
 const { initializeMap } = useMap();
 
@@ -20,6 +21,7 @@ onMounted(() => {
 
 <template>
     <div id="map"></div>
+    <FormModal />
 </template>
 
 <style lang="scss">

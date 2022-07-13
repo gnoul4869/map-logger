@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import InfoPanel from '@/components/InfoPanel.vue';
-import LeafletMap from '@/components/LeafletMap.vue';
-import FormModal from '@/components/FormModal.vue';
+import LeafletMap from '@/components/Map/LeafletMap.vue';
 </script>
 
 <template>
     <div class="wrapper">
         <InfoPanel />
         <LeafletMap />
-        <FormModal />
     </div>
 </template>
 

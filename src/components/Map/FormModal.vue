@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue';
+import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { useMapStore } from '@/stores/useMapStore';
@@ -8,6 +8,7 @@ import ColorPicker from '@/components/ColorPicker.vue';
 
 const mapStore = useMapStore();
 const { showLocationLog } = storeToRefs(mapStore);
+
 const { addMarker } = useMap();
 
 const label = ref('');
@@ -26,23 +27,20 @@ onClickOutside(form, (): void => {
     }
 });
 
-watch(showLocationLog, async () => {
-    if (showLocationLog.value) {
-        await nextTick();
-        labelInput.value?.focus();
-    }
-});
-
 const submitHandler = (): void => {
     if (label.value) {
         addMarker(label.value);
         clearForm();
     }
 };
+
+const onAfterEnter = () => {
+    labelInput.value?.focus();
+};
 </script>
 
 <template>
-    <Transition name="visibility">
+    <Transition name="visibility" @after-enter="onAfterEnter">
         <form v-if="showLocationLog" ref="form" autocomplete="off" @submit.prevent="submitHandler">
             <h2>Location log</h2>
             <div class="option">
@@ -54,7 +52,7 @@ const submitHandler = (): void => {
                 <ColorPicker id="color-picker" />
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 ml-2 fill-taupe-gray cursor-pointer"
+                    class="h-6 w-6 ml-2 fill-taupe-gray cursor-pointer hover:motion-safe:animate-spin"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                 >
@@ -65,7 +63,10 @@ const submitHandler = (): void => {
                     />
                 </svg>
             </div>
-
+            <div class="option">
+                <label for="log">Log</label>
+                <textarea id="log"></textarea>
+            </div>
             <button type="submit" :disabled="!label">Add</button>
         </form>
     </Transition>
@@ -117,6 +118,10 @@ form {
         border-left: 0.3125rem solid coral;
         border-radius: 0.375rem;
         outline: none;
+
+        &:focus {
+            box-shadow: 0px 0px 5px coral;
+        }
 
         &::placeholder {
             font-size: 0.9375rem;
