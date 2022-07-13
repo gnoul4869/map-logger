@@ -8,6 +8,15 @@
     font-family: 'Inter', sans-serif;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: coral;
+    border-radius: 0.3125rem;
+}
+
 .visibility-enter-active,
 .visibility-leave-active {
     transition: all 0.35s ease-out;

@@ -109,11 +109,24 @@ form {
     }
 
     label {
-        width: 3.75rem;
+        min-width: 3.75rem;
     }
 
     input {
+        min-height: 2.25rem;
+    }
+
+    textarea {
+        min-height: 4.75rem;
+        max-height: 7.75rem;
+        cursor: auto;
+    }
+
+    input,
+    textarea {
+        min-width: 25ch;
         padding: 0.3125rem;
+        line-height: 1rem;
         color: $slite-black;
         border-left: 0.3125rem solid coral;
         border-radius: 0.375rem;
