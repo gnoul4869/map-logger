@@ -41,7 +41,7 @@ onMounted(() => {
         padding-right: 0.5rem;
         color: $fa-white;
         background-color: $metal-black;
-        border-radius: 5px;
+        border-radius: 0.3125rem;
     }
 
     .leaflet-popup-tip {
@@ -51,7 +51,7 @@ onMounted(() => {
 
 .popup {
     .leaflet-popup-content-wrapper {
-        border-left: 5px solid coral;
+        border-left: 0.3125rem solid coral;
     }
 }
 </style>

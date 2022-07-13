@@ -57,24 +57,34 @@ onMounted(() => {
 <style lang="scss">
 @import '@/assets/styles/variables';
 
+.pickr {
+    transform: translateY(-0.0625rem);
+}
+
+.pcr-button {
+    border: 0.125rem solid $metal-black;
+    outline: none;
+    box-shadow: none !important;
+}
+
 .pcr-app {
     color: $fa-white;
     background-color: $metal-black;
     border-radius: 0.625rem;
 
     .pcr-current-color {
-        border: 1px solid $metal-black;
+        border: 0.0625rem solid $metal-black;
     }
 
     .pcr-color-chooser {
-        top: 10px;
-        margin: 0 13px 0 12px !important;
+        top: 0.625rem;
+        margin: 0 0.8125rem 0 0.75rem !important;
     }
 
     .pcr-interaction {
         input {
             padding: 0.3125rem;
-            margin: 0 5px;
+            margin: 0 0.3125rem;
             font-weight: 500;
             color: $dark;
             border-radius: 0.625rem !important;

@@ -17,9 +17,9 @@ import FormModal from '@/components/FormModal.vue';
 
 .wrapper {
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 22% 78%;
     gap: 0;
-    height: 100vh;
+    min-height: 100vh;
     padding: 1rem;
     color: $fa-white;
     background-color: $dark;
