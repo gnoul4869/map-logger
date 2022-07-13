@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { useMapStore } from '@/stores/useMapStore';
@@ -11,12 +11,31 @@ const { showLocationLog } = storeToRefs(mapStore);
 
 const { addMarker } = useMap();
 
-const label = ref('');
 const form = ref<HTMLFormElement>();
 const labelInput = ref<HTMLFormElement>();
 
+interface FormData {
+    label: string;
+    color: string;
+    log: string;
+}
+
+const formData = ref<FormData>({
+    label: '',
+    color: '#d7734f',
+    log: '',
+});
+
+const isFormValid = computed((): boolean => {
+    return !!(formData.value.label && formData.value.log);
+});
+
 const clearForm = (): void => {
-    label.value = '';
+    formData.value = {
+        label: '',
+        color: '#d7734f',
+        log: '',
+    };
     mapStore.toggleForm(false);
 };
 
@@ -28,8 +47,8 @@ onClickOutside(form, (): void => {
 });
 
 const submitHandler = (): void => {
-    if (label.value) {
-        addMarker(label.value);
+    if (isFormValid.value) {
+        addMarker(formData.value.label);
         clearForm();
     }
 };
@@ -42,10 +61,16 @@ const onAfterEnter = () => {
 <template>
     <Transition name="visibility" @after-enter="onAfterEnter">
         <form v-if="showLocationLog" ref="form" autocomplete="off" @submit.prevent="submitHandler">
-            <h2>Location log</h2>
+            <h1>Location log</h1>
             <div class="option">
                 <label for="label">Label</label>
-                <input id="label" ref="labelInput" v-model="label" type="text" placeholder="An interesting location..." />
+                <input
+                    id="label"
+                    ref="labelInput"
+                    v-model="formData.label"
+                    type="text"
+                    placeholder="An interesting location..."
+                />
             </div>
             <div class="option">
                 <label for="color-picker">Color</label>
@@ -65,9 +90,9 @@ const onAfterEnter = () => {
             </div>
             <div class="option">
                 <label for="log">Log</label>
-                <textarea id="log"></textarea>
+                <textarea id="log" v-model="formData.log" placeholder="2000 years ago..."></textarea>
             </div>
-            <button type="submit" :disabled="!label">Add</button>
+            <button type="submit" :disabled="!isFormValid">Add</button>
         </form>
     </Transition>
 </template>
@@ -77,7 +102,7 @@ const onAfterEnter = () => {
 
 form {
     position: fixed;
-    top: 40%;
+    top: 45%;
     left: 50%;
     z-index: 9999;
     display: flex;
@@ -96,9 +121,10 @@ form {
         margin-bottom: 1rem;
     }
 
-    h2 {
+    h1 {
         margin: 0 auto;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.3125rem;
+        font-size: 1.125rem;
         font-weight: 700;
         color: $fa-white;
 
