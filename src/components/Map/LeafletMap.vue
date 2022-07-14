@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import useMap from '@/composables/useMap';
-import FormModal from '@/components/Map/FormModal.vue';
+import LogModal from '@/components/Map/LogModal.vue';
 
 const { initializeMap } = useMap();
 
@@ -21,7 +21,7 @@ onMounted(() => {
 
 <template>
     <div id="map"></div>
-    <FormModal />
+    <LogModal />
 </template>
 
 <style lang="scss">
@@ -43,6 +43,7 @@ onMounted(() => {
         padding-right: 0.5rem;
         color: $fa-white;
         background-color: $metal-black;
+        border-left: 0.3125rem solid coral;
         border-radius: 0.3125rem;
     }
 
@@ -51,9 +52,7 @@ onMounted(() => {
     }
 }
 
-.popup {
-    .leaflet-popup-content-wrapper {
-        border-left: 0.3125rem solid coral;
-    }
+.leaflet-control {
+    print-color-adjust: exact;
 }
 </style>
