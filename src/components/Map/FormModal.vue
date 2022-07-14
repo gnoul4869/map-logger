@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import { storeToRefs } from 'pinia';
-import { useMapStore } from '@/stores/useMapStore';
-import { useMap } from '@/composables/useMap';
+import useMap from '@/composables/useMap';
 import ColorPicker from '@/components/ColorPicker.vue';
 
-const mapStore = useMapStore();
-const { showLocationLog } = storeToRefs(mapStore);
-
-const { addMarker } = useMap();
+const { addMarker, showLocationLog } = useMap();
 
 const form = ref<HTMLFormElement>();
 const labelInput = ref<HTMLFormElement>();
@@ -36,7 +31,8 @@ const clearForm = (): void => {
         color: '#d7734f',
         log: '',
     };
-    mapStore.toggleForm(false);
+
+    showLocationLog.value = false;
 };
 
 onClickOutside(form, (): void => {

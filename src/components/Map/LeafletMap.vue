@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useMap } from '@/composables/useMap';
+import useMap from '@/composables/useMap';
 import FormModal from '@/components/Map/FormModal.vue';
 
 const { initializeMap } = useMap();

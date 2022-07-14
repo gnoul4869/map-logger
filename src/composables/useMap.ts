@@ -1,13 +1,16 @@
+import { ref } from 'vue';
 import L from 'leaflet';
 import { storeToRefs } from 'pinia';
-import { useMapStore } from '@/stores/useMapStore';
+import { type LocationLog, useMapStore } from '@/stores/useMapStore';
 
 const DEFAULT_LATITUDE = 9.284059;
 const DEFAULT_LONGITUDE = 105.724953;
 
-export const useMap = () => {
+const showLocationLog = ref(false);
+
+export default function useMap() {
     const mapStore = useMapStore();
-    const { map, mapEvent, showLocationLog } = storeToRefs(mapStore);
+    const { map, mapEvent } = storeToRefs(mapStore);
 
     const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
         map.value = L.map('map').setView([latitude, longtitude], 16);
@@ -19,7 +22,7 @@ export const useMap = () => {
         map.value.on('click', (mE) => {
             if (!showLocationLog.value) {
                 mapStore.setMapEvent(mE);
-                mapStore.toggleForm(true);
+                showLocationLog.value = true;
             }
         });
     };
@@ -42,5 +45,21 @@ export const useMap = () => {
         }
     };
 
-    return { initializeMap, addMarker };
-};
+    const addLocation = (
+        label: string,
+        color: string,
+        log: string,
+        coordinates: { latitude: number; longtitude: number }
+    ): void => {
+        const locatioLog: LocationLog = {
+            label,
+            color,
+            log,
+            coordinates,
+        };
+
+        mapStore.addLocation(locatioLog);
+    };
+
+    return { initializeMap, showLocationLog, addMarker, addLocation };
+}
