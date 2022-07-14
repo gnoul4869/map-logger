@@ -6,14 +6,18 @@ import { onMounted, ref } from 'vue';
 
 const DEFAULT_COLOR = '#d7734f';
 
-const color = ref(DEFAULT_COLOR);
+const pickr = ref<any>(null);
+
+const resetColor = () => {
+    pickr.value?.setColor(DEFAULT_COLOR);
+};
 
 const initializeColorPicker = (): void => {
-    const pickr = Pickr.create({
+    const pickrApp = Pickr.create({
         el: '.pickr',
         container: 'body',
         theme: 'nano',
-        default: color.value,
+        default: DEFAULT_COLOR,
         autoReposition: true,
         swatches: null,
         components: {
@@ -53,8 +57,11 @@ const initializeColorPicker = (): void => {
         },
     });
 
-    pickr.on('hide', (instance: any) => {
-        color.value = instance.getColor().toHEXA().toString();
+    pickrApp.on('init', (instance: any) => {
+        pickr.value = instance;
+    });
+
+    pickrApp.on('hide', (instance: any) => {
         instance.applyColor();
     });
 };
@@ -65,7 +72,22 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="pickr"></div>
+    <div class="flex items-center">
+        <div class="pickr"></div>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 ml-2 fill-taupe-gray cursor-pointer hover:motion-safe:animate-spin"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            @click="resetColor"
+        >
+            <path
+                fill-rule="evenodd"
+                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                clip-rule="evenodd"
+            />
+        </svg>
+    </div>
 </template>
 
 <style lang="scss">
