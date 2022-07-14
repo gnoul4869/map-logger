@@ -18,6 +18,7 @@ const initializeColorPicker = (): void => {
         container: 'body',
         theme: 'nano',
         default: DEFAULT_COLOR,
+        defaultRepresentation: 'HEXA',
         autoReposition: true,
         swatches: null,
         components: {
@@ -62,6 +63,8 @@ const initializeColorPicker = (): void => {
     });
 
     pickrApp.on('hide', (instance: any) => {
+        if (instance.getColor().a < 1) return resetColor();
+
         instance.applyColor();
     });
 };
