@@ -1,56 +1,64 @@
 import { ref } from 'vue';
 import L from 'leaflet';
-import { storeToRefs } from 'pinia';
-import { type LocationLog, useMapStore } from '@/stores/useMapStore';
 
 const DEFAULT_LATITUDE = 9.284059;
 const DEFAULT_LONGITUDE = 105.724953;
 
+interface LocationLog {
+    label: string;
+    color: string;
+    log: string;
+    coordinates: { latitude: number; longtitude: number };
+}
+
+const _map = ref<L.Map | null>(null);
+const _mapEvent = ref<L.LeafletMouseEvent | null>(null);
+const _locationLists = ref<LocationLog[]>([]);
+
 const showLocationLog = ref(false);
 
 export default function useMap() {
-    const mapStore = useMapStore();
-    const { map, mapEvent } = storeToRefs(mapStore);
-
     const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
-        map.value = L.map('map').setView([latitude, longtitude], 16);
+        _map.value = L.map('map').setView([latitude, longtitude], 16);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map.value as L.Map);
+        }).addTo(_map.value as L.Map);
 
-        map.value.on('click', (mE) => {
+        _map.value.on('click', (mE) => {
             if (!showLocationLog.value) {
-                mapStore.setMapEvent(mE);
+                _mapEvent.value = mE;
                 showLocationLog.value = true;
             }
         });
     };
 
     const addMarker = (popupContent: string): void => {
-        if (map.value && mapEvent.value) {
-            const customPopup = L.popup({
-                autoClose: false,
-                className: 'popup',
-                closeOnClick: false,
-                maxHeight: 30,
-                maxWidth: 300,
-            });
+        if (!_map.value || !_mapEvent.value) return;
 
-            L.marker([mapEvent.value.latlng.lat, mapEvent.value.latlng.lng])
-                .addTo(map.value as L.Map)
-                .bindPopup(customPopup)
-                .setPopupContent(popupContent)
-                .openPopup();
-        }
+        const customPopup = L.popup({
+            autoClose: false,
+            className: 'popup',
+            closeOnClick: false,
+            maxHeight: 30,
+            maxWidth: 300,
+        });
+
+        L.marker([_mapEvent.value.latlng.lat, _mapEvent.value.latlng.lng])
+            .addTo(_map.value as L.Map)
+            .bindPopup(customPopup)
+            .setPopupContent(popupContent)
+            .openPopup();
     };
 
-    const addLocation = (
-        label: string,
-        color: string,
-        log: string,
-        coordinates: { latitude: number; longtitude: number }
-    ): void => {
+    const addLocation = (label: string, color: string, log: string): void => {
+        if (!_mapEvent.value) return;
+
+        const coordinates = {
+            latitude: _mapEvent.value.latlng.lat,
+            longtitude: _mapEvent.value.latlng.lng,
+        };
+
         const locatioLog: LocationLog = {
             label,
             color,
@@ -58,7 +66,7 @@ export default function useMap() {
             coordinates,
         };
 
-        mapStore.addLocation(locatioLog);
+        _locationLists.value.push(locatioLog);
     };
 
     return { initializeMap, showLocationLog, addMarker, addLocation };
