@@ -15,7 +15,7 @@ const _map = ref<L.Map | null>(null);
 const _mapEvent = ref<L.LeafletMouseEvent | null>(null);
 const _locationLists = ref<LocationLog[]>([]);
 
-const showLocationLog = ref(false);
+const showLogModal = ref(false);
 
 export default function useMap() {
     const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
@@ -26,9 +26,9 @@ export default function useMap() {
         }).addTo(_map.value as L.Map);
 
         _map.value.on('click', (mE) => {
-            if (!showLocationLog.value) {
+            if (!showLogModal.value) {
                 _mapEvent.value = mE;
-                showLocationLog.value = true;
+                showLogModal.value = true;
             }
         });
     };
@@ -69,5 +69,5 @@ export default function useMap() {
         _locationLists.value.push(locatioLog);
     };
 
-    return { initializeMap, showLocationLog, addMarker, addLocation };
+    return { initializeMap, showLogModal, addMarker, addLocation };
 }

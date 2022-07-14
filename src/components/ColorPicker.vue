@@ -1,14 +1,19 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script setup lang="ts">
 import Pickr from '@simonwep/pickr';
 import '@simonwep/pickr/dist/themes/nano.min.css';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
-onMounted(() => {
-    Pickr.create({
+const DEFAULT_COLOR = '#d7734f';
+
+const color = ref(DEFAULT_COLOR);
+
+const initializeColorPicker = (): void => {
+    const pickr = Pickr.create({
         el: '.pickr',
         container: 'body',
         theme: 'nano',
-        default: '#d7734f',
+        default: color.value,
         autoReposition: true,
         swatches: null,
         components: {
@@ -47,6 +52,15 @@ onMounted(() => {
             },
         },
     });
+
+    pickr.on('hide', (instance: any) => {
+        color.value = instance.getColor().toHEXA().toString();
+        instance.applyColor();
+    });
+};
+
+onMounted(() => {
+    initializeColorPicker();
 });
 </script>
 
@@ -73,6 +87,7 @@ onMounted(() => {
     border-radius: 0.625rem;
 
     .pcr-current-color {
+        bottom: 0.125rem;
         border: 0.0625rem solid $metal-black;
     }
 

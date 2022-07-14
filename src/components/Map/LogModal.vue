@@ -4,7 +4,7 @@ import { onClickOutside } from '@vueuse/core';
 import useMap from '@/composables/useMap';
 import ColorPicker from '@/components/ColorPicker.vue';
 
-const { addMarker, showLocationLog } = useMap();
+const { addMarker, showLogModal } = useMap();
 
 const form = ref<HTMLFormElement>();
 const labelInput = ref<HTMLFormElement>();
@@ -32,11 +32,12 @@ const clearForm = (): void => {
         log: '',
     };
 
-    showLocationLog.value = false;
+    showLogModal.value = false;
 };
 
 onClickOutside(form, (): void => {
     const IsColorPickerHidden = !document.querySelector('.pcr-app.visible');
+    console.log('test');
     if (IsColorPickerHidden) {
         setTimeout(() => clearForm(), 0);
     }
@@ -56,7 +57,7 @@ const onAfterEnter = () => {
 
 <template>
     <Transition name="visibility" @after-enter="onAfterEnter">
-        <form v-if="showLocationLog" ref="form" autocomplete="off" @submit.prevent="submitHandler">
+        <form v-if="showLogModal" ref="form" autocomplete="off" @submit.prevent="submitHandler">
             <h1>Location log</h1>
             <div class="option">
                 <label for="label">Label</label>
