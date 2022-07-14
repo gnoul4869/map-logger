@@ -6,6 +6,10 @@ import { onMounted, ref } from 'vue';
 
 const DEFAULT_COLOR = '#d7734f';
 
+const emit = defineEmits<{
+    (e: 'on-color-picker', color: string): void;
+}>();
+
 const pickr = ref<any>(null);
 
 const resetColor = () => {
@@ -63,8 +67,10 @@ const initializeColorPicker = (): void => {
     });
 
     pickrApp.on('hide', (instance: any) => {
-        if (instance.getColor().a < 1) return resetColor();
+        const pickrColor = instance.getColor();
+        if (pickrColor.a < 1) return resetColor();
 
+        emit('on-color-picker', pickrColor.toHEXA().toString());
         instance.applyColor();
     });
 };

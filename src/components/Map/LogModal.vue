@@ -4,16 +4,28 @@ import { onClickOutside } from '@vueuse/core';
 import useMap from '@/composables/useMap';
 import ColorPicker from '@/components/ColorPicker.vue';
 
-const { addMarker, showLogModal } = useMap();
+const { showLogModal, addLocation } = useMap();
 
 const form = ref<HTMLFormElement>();
 const labelInput = ref<HTMLFormElement>();
 
-interface FormData {
+const onAfterEnter = () => {
+    labelInput.value?.focus();
+};
+
+onClickOutside(form, (): void => {
+    const IsColorPickerHidden = !document.querySelector('.pcr-app.visible');
+
+    if (IsColorPickerHidden) {
+        setTimeout(() => clearForm(), 0);
+    }
+});
+
+type FormData = {
     label: string;
     color: string;
     log: string;
-}
+};
 
 const formData = ref<FormData>({
     label: '',
@@ -35,22 +47,17 @@ const clearForm = (): void => {
     showLogModal.value = false;
 };
 
-onClickOutside(form, (): void => {
-    const IsColorPickerHidden = !document.querySelector('.pcr-app.visible');
-    if (IsColorPickerHidden) {
-        setTimeout(() => clearForm(), 0);
-    }
-});
-
 const submitHandler = (): void => {
     if (isFormValid.value) {
-        addMarker(formData.value.label);
+        const { label, color, log } = formData.value;
+        addLocation(label, color, log);
+
         clearForm();
     }
 };
 
-const onAfterEnter = () => {
-    labelInput.value?.focus();
+const colorPickerHandler = (color: string): void => {
+    formData.value.color = color;
 };
 </script>
 
@@ -70,7 +77,7 @@ const onAfterEnter = () => {
             </div>
             <div class="option">
                 <label for="color-picker">Color</label>
-                <ColorPicker id="color-picker" />
+                <ColorPicker id="color-picker" @on-color-picker="colorPickerHandler" />
             </div>
             <div class="option">
                 <label for="log">Log</label>
