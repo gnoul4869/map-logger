@@ -4,7 +4,7 @@ import Pickr from '@simonwep/pickr';
 import '@simonwep/pickr/dist/themes/nano.min.css';
 import { onMounted, ref } from 'vue';
 
-const DEFAULT_COLOR = '#d7734f';
+const DEFAULT_COLOR = '#E46F46';
 
 const emit = defineEmits<{
     (e: 'on-color-picker', color: string): void;
@@ -64,6 +64,7 @@ const initializeColorPicker = (): void => {
 
     pickrApp.on('init', (instance: any) => {
         pickr.value = instance;
+        emit('on-color-picker', DEFAULT_COLOR);
     });
 
     pickrApp.on('hide', (instance: any) => {

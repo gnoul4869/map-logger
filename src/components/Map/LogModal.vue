@@ -121,7 +121,7 @@ form {
 
         &::first-letter {
             font-weight: 900;
-            color: coral;
+            color: $sienna;
         }
     }
 
@@ -145,12 +145,12 @@ form {
         padding: 0.3125rem;
         line-height: 1rem;
         color: $slite-black;
-        border-left: 0.3125rem solid coral;
+        border-left: 0.3125rem solid $sienna;
         border-radius: 0.375rem;
         outline: none;
 
         &:focus {
-            box-shadow: 0px 0px 5px coral;
+            box-shadow: 0px 0px 5px $sienna;
         }
 
         &::placeholder {
@@ -162,7 +162,7 @@ form {
         padding: 0.3125rem 0.9375rem;
         margin: 0 auto;
         margin-top: 1.875rem;
-        background-color: coral;
+        background-color: $sienna;
         border-radius: 0.3125rem;
         outline: none;
         transition: background-color 150ms ease-in-out;

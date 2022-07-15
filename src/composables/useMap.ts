@@ -37,7 +37,7 @@ const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number =
     });
 };
 
-const addMarker = (label: string, coordinates: Coordinates): void => {
+const addMarker = (label: string, color: string, coordinates: Coordinates): void => {
     if (!_map.value || !_mapEvent.value) return;
 
     const markerOptions = {
@@ -46,7 +46,7 @@ const addMarker = (label: string, coordinates: Coordinates): void => {
         title: label,
     };
 
-    const customPopup = L.popup({
+    const popup = L.popup({
         autoClose: false,
         className: 'popup',
         closeOnClick: false,
@@ -56,9 +56,14 @@ const addMarker = (label: string, coordinates: Coordinates): void => {
 
     L.marker([coordinates.latitude, coordinates.longtitude], markerOptions)
         .addTo(_map.value as L.Map)
-        .bindPopup(customPopup)
+        .bindPopup(popup)
         .setPopupContent(label)
         .openPopup();
+
+    const popupContentWrapper = popup.getElement()?.children[0] as HTMLElement;
+    if (popupContentWrapper) {
+        popupContentWrapper.style.borderLeft = `0.3125rem solid ${color}`;
+    }
 };
 
 const addLocation = (label: string, color: string, log: string): void => {
@@ -85,8 +90,8 @@ watch(
         const newLocation = _locationList.value.at(-1);
         if (!newLocation) return;
 
-        const { label, coordinates } = newLocation;
-        addMarker(label, coordinates);
+        const { label, color, coordinates } = newLocation;
+        addMarker(label, color, coordinates);
     },
     { deep: true }
 );

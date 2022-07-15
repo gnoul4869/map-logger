@@ -11,6 +11,7 @@ module.exports = {
                 'davy-grey': '#555555',
                 'outer-space': '#42484d',
                 'taupe-gray': '#888888',
+                sienna: '#E46F46',
             },
         },
     },

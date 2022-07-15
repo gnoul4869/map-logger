@@ -43,7 +43,7 @@ onMounted(() => {
         padding-right: 0.5rem;
         color: $fa-white;
         background-color: $metal-black;
-        border-left: 0.3125rem solid coral;
+        border-left: 0.3125rem solid $sienna;
         border-radius: 0.3125rem;
     }
 

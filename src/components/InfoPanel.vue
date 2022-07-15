@@ -37,7 +37,7 @@
         color: $fa-white;
 
         &::first-letter {
-            color: coral;
+            color: $sienna;
         }
     }
 
