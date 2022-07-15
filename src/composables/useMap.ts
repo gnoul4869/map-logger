@@ -40,6 +40,12 @@ const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number =
 const addMarker = (label: string, coordinates: Coordinates): void => {
     if (!_map.value || !_mapEvent.value) return;
 
+    const markerOptions = {
+        draggable: false,
+        keyboard: false,
+        title: label,
+    };
+
     const customPopup = L.popup({
         autoClose: false,
         className: 'popup',
@@ -48,7 +54,7 @@ const addMarker = (label: string, coordinates: Coordinates): void => {
         maxWidth: 300,
     });
 
-    L.marker([coordinates.latitude, coordinates.longtitude])
+    L.marker([coordinates.latitude, coordinates.longtitude], markerOptions)
         .addTo(_map.value as L.Map)
         .bindPopup(customPopup)
         .setPopupContent(label)
