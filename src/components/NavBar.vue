@@ -30,7 +30,7 @@ onMounted(() => {
 .nav-container {
     display: flex;
     align-items: center;
-    margin-top: 1.25rem;
+    margin-top: 2rem;
     color: $taupe-gray;
     border: 0.0625rem solid $taupe-gray;
     border-radius: 1.5625rem;
