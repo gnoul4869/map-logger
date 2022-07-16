@@ -16,29 +16,29 @@ type LocationLog = {
     coordinates: Coordinates;
 };
 
-let _map: L.Map | null = null;
-let _mapEvent: L.LeafletMouseEvent | null = null;
-const _locationList = ref<LocationLog[]>([]);
+let map: L.Map | null = null;
+let mapEvent: L.LeafletMouseEvent | null = null;
+const locationList = ref<LocationLog[]>([]);
 
 const showLogModal = ref(false);
 
 const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
-    _map = L.map('map').setView([latitude, longtitude], 16);
+    map = L.map('map').setView([latitude, longtitude], 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(_map as L.Map);
+    }).addTo(map as L.Map);
 
-    _map.on('click', (mE) => {
+    map.on('click', (mE) => {
         if (!showLogModal.value) {
-            _mapEvent = mE;
+            mapEvent = mE;
             showLogModal.value = true;
         }
     });
 };
 
 const addMarker = (label: string, color: string, coordinates: Coordinates): void => {
-    if (!_map || !_mapEvent) return;
+    if (!map || !mapEvent) return;
 
     const markerOptions = {
         draggable: false,
@@ -55,7 +55,7 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
     });
 
     L.marker([coordinates.latitude, coordinates.longtitude], markerOptions)
-        .addTo(_map as L.Map)
+        .addTo(map as L.Map)
         .bindPopup(popup)
         .setPopupContent(label)
         .openPopup();
@@ -64,18 +64,14 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
     if (popupContentWrapper) {
         popupContentWrapper.style.borderLeft = `0.3125rem solid ${color}`;
     }
-
-    popup.on('remove', () => {
-        console.log('remove');
-    });
 };
 
 const addLocation = (label: string, color: string, log: string): void => {
-    if (!_mapEvent) return;
+    if (!mapEvent) return;
 
     const coordinates = {
-        latitude: _mapEvent.latlng.lat,
-        longtitude: _mapEvent.latlng.lng,
+        latitude: mapEvent.latlng.lat,
+        longtitude: mapEvent.latlng.lng,
     };
 
     const locationLog: LocationLog = {
@@ -85,13 +81,13 @@ const addLocation = (label: string, color: string, log: string): void => {
         coordinates,
     };
 
-    _locationList.value.push(locationLog);
+    locationList.value.push(locationLog);
 };
 
 watch(
-    _locationList,
+    locationList,
     () => {
-        const newLocation = _locationList.value.at(-1);
+        const newLocation = locationList.value.at(-1);
         if (!newLocation) return;
 
         const { label, color, coordinates } = newLocation;
