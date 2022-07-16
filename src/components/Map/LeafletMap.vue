@@ -51,8 +51,4 @@ onMounted(() => {
         background-color: $metal-black;
     }
 }
-
-.leaflet-control {
-    print-color-adjust: exact;
-}
 </style>
