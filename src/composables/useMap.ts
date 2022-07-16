@@ -18,7 +18,7 @@ type LocationLog = {
 
 let map: L.Map | null = null;
 let mapEvent: L.LeafletMouseEvent | null = null;
-const locationList = ref<LocationLog[]>([]);
+const locationLogList = ref<LocationLog[]>([]);
 
 const showLogModal = ref(false);
 
@@ -81,13 +81,13 @@ const addLocation = (label: string, color: string, log: string): void => {
         coordinates,
     };
 
-    locationList.value.push(locationLog);
+    locationLogList.value.push(locationLog);
 };
 
 watch(
-    locationList,
+    locationLogList,
     () => {
-        const newLocation = locationList.value.at(-1);
+        const newLocation = locationLogList.value.at(-1);
         if (!newLocation) return;
 
         const { label, color, coordinates } = newLocation;
@@ -97,5 +97,5 @@ watch(
 );
 
 export default function useMap() {
-    return { initializeMap, showLogModal, addMarker, addLocation };
+    return { initializeMap, showLogModal, addMarker, addLocation, locationLogList };
 }

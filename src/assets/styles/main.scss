@@ -17,6 +17,16 @@
     border-radius: 0.3125rem;
 }
 
+.panel-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max-content;
+    font-size: 0.9375rem;
+    color: $taupe-gray;
+    transform: translate(-50%, -50%);
+}
+
 .visibility-enter-active,
 .visibility-leave-active {
     transition: all 0.35s ease-out;

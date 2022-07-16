@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InfoPanel from '@/components/InfoPanel.vue';
+import InfoPanel from '@/components/Panel/MainPanel.vue';
 import LeafletMap from '@/components/Map/LeafletMap.vue';
 </script>
 
@@ -17,6 +17,7 @@ import LeafletMap from '@/components/Map/LeafletMap.vue';
     display: grid;
     grid-template-columns: 22% 78%;
     gap: 0;
+    min-width: 62.5rem;
     min-height: 100vh;
     padding: 1rem;
     color: $fa-white;
