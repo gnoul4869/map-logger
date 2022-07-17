@@ -100,7 +100,7 @@ const deleteHandler = (): void => {
             }
 
             &:nth-child(2):hover {
-                color: #fd4d4d;
+                color: $tart-orange;
             }
         }
     }

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import useMap from '@/composables/useMap';
+import type { LocationLog } from '@/composables/useMap';
 
-const { moveToCoordinates, locationLogList } = useMap();
+const { moveToCoordinates, deleteLocationLog, locationLogList } = useMap();
 
 const mainContainer = ref<HTMLElement | null>(null);
 const numberOfLocations = computed(() => locationLogList.value.length);
@@ -29,6 +30,15 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
         target.style.borderLeft = `.3125rem solid ${color}`;
     }
 };
+
+const clickHandler = (e: Event, locationLog: LocationLog): void => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('delete')) {
+        return deleteLocationLog(locationLog.id);
+    }
+
+    moveToCoordinates(locationLog.coordinates);
+};
 </script>
 
 <template>
@@ -41,7 +51,7 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
                 :style="{ borderLeft: `.3125rem solid ${locationLog.color}` }"
                 @mouseenter="setBorderColor($event, locationLog.color, true)"
                 @mouseleave="setBorderColor($event, locationLog.color, false)"
-                @click="moveToCoordinates(locationLog.coordinates)"
+                @click="clickHandler($event, locationLog)"
             >
                 <div class="id">#{{ locationLogList.length - index }}</div>
                 <h1 class="title">{{ locationLog.label }}</h1>
@@ -50,6 +60,7 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
                     <div><span class="text-begonia">Longtitude:</span> {{ locationLog.coordinates.longtitude }}</div>
                 </div>
                 <p class="italic">"{{ truncate(locationLog.log) }}"</p>
+                <button class="delete">x</button>
             </div>
         </div>
         <div v-else class="panel-placeholder">
@@ -113,6 +124,21 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
         margin-bottom: 0.3125rem;
         font-weight: 500;
         color: $fa-white;
+    }
+
+    .delete {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $taupe-gray;
+        outline: none;
+        transition: color 0.25s ease-out;
+
+        &:hover {
+            color: $tart-orange;
+        }
     }
 }
 </style>

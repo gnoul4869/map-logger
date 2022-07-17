@@ -14,6 +14,7 @@ module.exports = {
                 sienna: '#E46F46',
                 begonia: '#f87171',
                 'v-green': '#0faf87',
+                'tart-orange': '#fd4d4d',
             },
         },
     },

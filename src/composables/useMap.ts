@@ -5,12 +5,12 @@ const DEFAULT_LATITUDE = 9.284059;
 const DEFAULT_LONGITUDE = 105.724953;
 const DEFAULT_ZOOM_LEVEL = 16;
 
-type Coordinates = {
+export type Coordinates = {
     latitude: number;
     longtitude: number;
 };
 
-type LocationLog = {
+export type LocationLog = {
     id: number;
     label: string;
     color: string;
