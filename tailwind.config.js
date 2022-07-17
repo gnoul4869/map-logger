@@ -12,6 +12,7 @@ module.exports = {
                 'outer-space': '#42484d',
                 'taupe-gray': '#888888',
                 sienna: '#E46F46',
+                begonia: '#f87171',
             },
         },
     },

@@ -1,7 +1,30 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import useMap from '@/composables/useMap';
+
+const { locationLogList } = useMap();
+
+const truncate = (str: string) => {
+    return str.length <= 120 ? str : str.substring(0, 120) + '...';
+};
+</script>
 
 <template>
-    <div class="panel-placeholder">
+    <div v-if="locationLogList.length">
+        <div
+            v-for="locationLog in locationLogList.slice().reverse()"
+            :key="locationLog.id"
+            class="log-container"
+            :style="{ borderLeft: `.3125rem solid ${locationLog.color}` }"
+        >
+            <h1 class="title">{{ locationLog.label }}</h1>
+            <div class="text-start ml-2">
+                <div><span class="text-begonia">Latitude:</span> {{ locationLog.coordinates.latitude }}</div>
+                <div><span class="text-begonia">Longtitude:</span> {{ locationLog.coordinates.longtitude }}</div>
+            </div>
+            <p class="italic">"{{ truncate(locationLog.log) }}"</p>
+        </div>
+    </div>
+    <div v-else class="panel-placeholder">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" viewBox="0 0 20 20" fill="currentColor">
             <path
                 fill-rule="evenodd"
@@ -15,4 +38,31 @@
 
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
+
+.log-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80%;
+    padding: 0.3125rem 0.125rem;
+    padding-right: 0.5rem;
+    margin: 1.25rem 0.625rem 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: gainsboro;
+    text-align: center;
+    background-color: $metal-black;
+    border: 0.0625rem solid gainsboro;
+
+    border-radius: 0.625rem;
+
+    .title {
+        margin-bottom: 0.3125rem;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: $fa-white;
+    }
+}
 </style>

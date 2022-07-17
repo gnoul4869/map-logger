@@ -15,7 +15,7 @@ import LeafletMap from '@/components/Map/LeafletMap.vue';
 
 .wrapper {
     display: grid;
-    grid-template-columns: 22% 78%;
+    grid-template-columns: 25% 75%;
     gap: 0;
     min-width: 62.5rem;
     min-height: 100vh;

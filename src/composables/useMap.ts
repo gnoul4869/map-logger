@@ -10,6 +10,7 @@ type Coordinates = {
 };
 
 type LocationLog = {
+    id: number;
     label: string;
     color: string;
     log: string;
@@ -69,12 +70,15 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
 const addLocation = (label: string, color: string, log: string): void => {
     if (!mapEvent) return;
 
+    const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
+
     const coordinates = {
         latitude: mapEvent.latlng.lat,
         longtitude: mapEvent.latlng.lng,
     };
 
     const locationLog: LocationLog = {
+        id,
         label,
         color,
         log,

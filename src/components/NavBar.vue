@@ -32,7 +32,7 @@ onMounted(() => {
     align-items: center;
     margin-top: 2rem;
     color: $taupe-gray;
-    border: 0.0625rem solid $taupe-gray;
+    border: 0.0625rem solid $fa-white;
     border-radius: 1.5625rem;
 
     .nav-btn {
