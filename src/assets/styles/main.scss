@@ -6,16 +6,19 @@
 
 * {
     font-family: 'Inter', sans-serif;
-    color: $fa-white;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 0.625rem;
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: $sienna;
     border-radius: 0.3125rem;
+}
+
+::-webkit-scrollbar-corner {
+    display: none;
 }
 
 .panel-placeholder {

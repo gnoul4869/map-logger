@@ -37,6 +37,7 @@ onMounted(() => {
     .leaflet-popup-content {
         font-size: 0.8125rem;
         line-height: 1rem;
+        color: $fa-white;
     }
 
     .leaflet-popup-content-wrapper {
