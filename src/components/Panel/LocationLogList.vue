@@ -41,6 +41,7 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
                 :style="{ borderLeft: `.3125rem solid ${locationLog.color}` }"
                 @mouseenter="setBorderColor($event, locationLog.color, true)"
                 @mouseleave="setBorderColor($event, locationLog.color, false)"
+                @click="moveToCoordinates(locationLog.coordinates)"
             >
                 <div class="id">#{{ locationLogList.length - index }}</div>
                 <h1 class="title">{{ locationLog.label }}</h1>
@@ -48,7 +49,7 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
                     <div><span class="text-begonia">Latitude:</span> {{ locationLog.coordinates.latitude }}</div>
                     <div><span class="text-begonia">Longtitude:</span> {{ locationLog.coordinates.longtitude }}</div>
                 </div>
-                <p class="italic">"{{ truncate(locationLog.log) }}"</p>
+                <!-- <p class="italic">"{{ truncate(locationLog.log) }}"</p> -->
             </div>
         </div>
         <div v-else class="panel-placeholder">
@@ -68,7 +69,9 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
 @import '@/assets/styles/variables';
 
 .main-container {
+    width: 100%;
     max-height: 80%;
+    padding: 0 0.3125rem;
     overflow: scroll;
 }
 
@@ -79,7 +82,7 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
     align-items: center;
     justify-content: center;
     min-width: 80%;
-    padding: 0.3125rem 0.125rem;
+    padding: 0.3125rem;
     padding-right: 0.5rem;
     margin: 0 0.625rem 0.75rem;
     font-size: 1rem;
@@ -88,14 +91,10 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
     color: gainsboro;
     text-align: center;
     cursor: pointer;
-    background-color: $metal-black;
+    background-color: $raisin-black;
     border: 0.0625rem solid gainsboro;
-    border-radius: 0.625rem;
+    border-radius: 0.375rem;
     transition: border 0.25s ease-in-out;
-
-    // &:hover {
-    //     border: 1px solid $sienna;
-    // }
 
     .id {
         position: absolute;
@@ -108,7 +107,6 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
 
     .title {
         margin-bottom: 0.3125rem;
-        font-size: 1.2rem;
         font-weight: 500;
         color: $fa-white;
     }

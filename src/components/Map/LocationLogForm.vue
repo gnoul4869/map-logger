@@ -101,6 +101,7 @@ form {
     align-items: flex-start;
     justify-content: center;
     padding: 1.5rem;
+    color: $fa-white;
     background-color: $outer-space;
     border-radius: 0.625rem;
     transform: translate(-50%, -50%);
