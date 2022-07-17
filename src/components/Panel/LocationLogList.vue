@@ -1,7 +1,17 @@
 <script setup lang="ts">
+import { ref, computed, watch } from 'vue';
 import useMap from '@/composables/useMap';
 
 const { locationLogList } = useMap();
+
+const mainContainer = ref<HTMLElement | null>(null);
+const numberOfLocations = computed(() => locationLogList.value.length);
+
+watch(numberOfLocations, (newValue, oldValue): void => {
+    if (newValue > oldValue && mainContainer.value) {
+        mainContainer.value.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+});
 
 const truncate = (str: string) => {
     return str.length <= 90 ? str : str.substring(0, 90) + '...';
@@ -9,7 +19,7 @@ const truncate = (str: string) => {
 </script>
 
 <template>
-    <div class="main-container">
+    <div ref="mainContainer" class="main-container">
         <div v-if="locationLogList.length">
             <div
                 v-for="(locationLog, index) in locationLogList.slice().reverse()"
