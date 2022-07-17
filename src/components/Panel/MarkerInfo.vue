@@ -5,32 +5,34 @@ const { currentLocationLog } = useMap();
 </script>
 
 <template>
-    <div v-if="currentLocationLog" class="main-container">
-        <h1
-            class="title"
-            :style="{
-                borderTop: `.0625rem solid ${currentLocationLog.color}`,
-                borderBottom: `.0625rem solid ${currentLocationLog.color}`,
-            }"
-        >
-            {{ currentLocationLog.label }}
-        </h1>
-        <div class="coordinates-container">
-            <div><span class="text-begonia">Latitude:</span> {{ currentLocationLog.coordinates.latitude }}</div>
-            <div><span class="text-begonia">Longtitude:</span> {{ currentLocationLog.coordinates.longtitude }}</div>
+    <Transition name="visibility" mode="out-in">
+        <div v-if="currentLocationLog" :key="currentLocationLog.id" class="main-container">
+            <h1
+                class="title"
+                :style="{
+                    borderTop: `.0625rem solid ${currentLocationLog.color}`,
+                    borderBottom: `.0625rem solid ${currentLocationLog.color}`,
+                }"
+            >
+                {{ currentLocationLog.label }}
+            </h1>
+            <div class="coordinates-container">
+                <div><span class="text-begonia">Latitude:</span> {{ currentLocationLog.coordinates.latitude }}</div>
+                <div><span class="text-begonia">Longtitude:</span> {{ currentLocationLog.coordinates.longtitude }}</div>
+            </div>
+            <p class="italic">"{{ currentLocationLog.log }}"</p>
         </div>
-        <p class="italic">"{{ currentLocationLog.log }}"</p>
-    </div>
-    <div v-else class="panel-placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" viewBox="0 0 20 20" fill="currentColor">
-            <path
-                fill-rule="evenodd"
-                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                clip-rule="evenodd"
-            />
-        </svg>
-        <p>Click on a marker to display information</p>
-    </div>
+        <div v-else class="panel-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                    fill-rule="evenodd"
+                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                    clip-rule="evenodd"
+                />
+            </svg>
+            <p>Click on a marker to display information</p>
+        </div>
+    </Transition>
 </template>
 
 <style lang="scss" scoped>

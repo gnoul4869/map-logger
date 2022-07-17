@@ -15,7 +15,7 @@ const onNavTabHandler = (isInfoTab: boolean) => {
     <div class="panel">
         <h1 class="title">Map Logger</h1>
         <NavBar @on-nav-tab="onNavTabHandler" />
-        <Transition name="visibility">
+        <Transition name="visibility" mode="out-in">
             <MarkerInfo v-if="isInfo" />
             <LocationLogList v-else />
         </Transition>
