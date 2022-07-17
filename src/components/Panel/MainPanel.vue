@@ -71,6 +71,7 @@ watch(currentLocationLog, () => {
             font-weight: 600;
             color: inherit;
             text-decoration: none;
+            outline: none;
             transition: color 0.4s ease-out;
         }
         a:hover {

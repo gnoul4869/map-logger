@@ -19,6 +19,7 @@ type LocationLog = {
 };
 
 let map: L.Map | null = null;
+let mapMarkers: L.LayerGroup | null = null;
 let mapEvent: L.LeafletMouseEvent | null = null;
 
 const locationLogList = ref<LocationLog[]>([]);
@@ -28,8 +29,24 @@ localStorage.getItem('locationLogList') &&
 const showLogModal = ref(false);
 const currentLocationLog = ref<LocationLog | null>(null);
 
+const initializeMarkers = (): void => {
+    if (!map || !mapMarkers) return;
+
+    mapMarkers.clearLayers();
+
+    if (locationLogList.value.length) {
+        locationLogList.value.forEach((locationLog) => {
+            addMarker(locationLog.label, locationLog.color, locationLog.coordinates);
+        });
+    }
+};
+
 const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
     map = L.map('map').setView([latitude, longtitude], DEFAULT_ZOOM_LEVEL);
+
+    mapMarkers = new L.LayerGroup();
+
+    map.addLayer(mapMarkers);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -43,15 +60,11 @@ const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number =
         }
     });
 
-    if (locationLogList.value.length) {
-        locationLogList.value.forEach((locationLog) => {
-            addMarker(locationLog.label, locationLog.color, locationLog.coordinates);
-        });
-    }
+    initializeMarkers();
 };
 
 const addMarker = (label: string, color: string, coordinates: Coordinates): void => {
-    if (!map) return;
+    if (!map || !mapMarkers) return;
 
     const markerOptions = {
         draggable: false,
@@ -69,7 +82,7 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
     });
 
     const marker = L.marker([coordinates.latitude, coordinates.longtitude], markerOptions)
-        .addTo(map as L.Map)
+        .addTo(mapMarkers as L.LayerGroup)
         .bindPopup(popup)
         .setPopupContent(label)
         .openPopup();
@@ -97,7 +110,13 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
     });
 };
 
-const addLocation = (label: string, color: string, log: string): void => {
+const moveToCoordinates = (coordinates: Coordinates, zoomLevel = DEFAULT_ZOOM_LEVEL): void => {
+    if (!map) return;
+
+    map.setView([coordinates.latitude, coordinates.longtitude], zoomLevel);
+};
+
+const addLocationLog = (label: string, color: string, log: string): void => {
     if (!mapEvent) return;
 
     const id = Math.floor(Math.random() * Math.floor(Math.random() * Date.now()));
@@ -119,10 +138,12 @@ const addLocation = (label: string, color: string, log: string): void => {
     addMarker(label, color, coordinates);
 };
 
-const moveToCoordinates = (coordinates: Coordinates): void => {
-    if (!map) return;
+const deleteLocationLog = (id: number): void => {
+    currentLocationLog.value?.id === id && (currentLocationLog.value = null);
 
-    map.setView([coordinates.latitude, coordinates.longtitude], DEFAULT_ZOOM_LEVEL);
+    locationLogList.value = locationLogList.value.filter((locationLog) => locationLog.id !== id);
+
+    initializeMarkers();
 };
 
 watch(
@@ -134,5 +155,14 @@ watch(
 );
 
 export default function useMap() {
-    return { initializeMap, showLogModal, addMarker, addLocation, moveToCoordinates, locationLogList, currentLocationLog };
+    return {
+        initializeMap,
+        showLogModal,
+        addMarker,
+        addLocationLog,
+        moveToCoordinates,
+        deleteLocationLog,
+        locationLogList,
+        currentLocationLog,
+    };
 }

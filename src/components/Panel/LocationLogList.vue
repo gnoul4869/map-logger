@@ -96,6 +96,10 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
     border-radius: 0.375rem;
     transition: border 0.25s ease-in-out;
 
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     .id {
         position: absolute;
         top: 0.1875rem;

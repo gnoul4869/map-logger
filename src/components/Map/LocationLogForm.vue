@@ -4,7 +4,7 @@ import { onClickOutside } from '@vueuse/core';
 import useMap from '@/composables/useMap';
 import ColorPicker from '@/components/ColorPicker.vue';
 
-const { showLogModal, addLocation } = useMap();
+const { showLogModal, addLocationLog } = useMap();
 
 const form = ref<HTMLFormElement>();
 const labelInput = ref<HTMLFormElement>();
@@ -50,7 +50,7 @@ const clearForm = (): void => {
 const submitHandler = (): void => {
     if (isFormValid.value) {
         const { label, color, log } = formData.value;
-        addLocation(label, color, log);
+        addLocationLog(label, color, log);
 
         clearForm();
     }
