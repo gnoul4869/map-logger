@@ -13,8 +13,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: $sienna;
+    background-color: $davy-grey;
     border-radius: 0.3125rem;
+
+    &:hover {
+        background-color: $taupe-gray;
+    }
+
+    &:active {
+        background-color: $sienna;
+    }
 }
 
 ::-webkit-scrollbar-corner {
