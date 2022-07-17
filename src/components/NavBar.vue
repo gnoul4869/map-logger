@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+defineProps<{
+    isInfo: boolean;
+}>();
+
 const emit = defineEmits<{
     (e: 'on-nav-tab', isInfoTab: boolean): void;
 }>();
 
-const isInfo = ref(true);
-
 const navHandler = (isInfoTab: boolean): void => {
-    isInfo.value = isInfoTab;
     emit('on-nav-tab', isInfoTab);
 };
-
-onMounted(() => {
-    emit('on-nav-tab', isInfo.value);
-});
 </script>
 
 <template>

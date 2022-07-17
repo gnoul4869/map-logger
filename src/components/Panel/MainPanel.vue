@@ -1,20 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import useMap from '@/composables/useMap';
 import NavBar from '@/components/NavBar.vue';
 import MarkerInfo from '@/components/Panel/MarkerInfo.vue';
 import LocationLogList from '@/components/Panel/LocationLogList.vue';
+
+const { currentLocationLog } = useMap();
 
 const isInfo = ref(true);
 
 const onNavTabHandler = (isInfoTab: boolean) => {
     isInfo.value = isInfoTab;
 };
+
+watch(currentLocationLog, () => {
+    isInfo.value = true;
+});
 </script>
 
 <template>
     <div class="panel">
         <h1 class="title">Map Logger</h1>
-        <NavBar @on-nav-tab="onNavTabHandler" />
+        <NavBar :is-info="isInfo" @on-nav-tab="onNavTabHandler" />
         <Transition name="visibility" mode="out-in">
             <MarkerInfo v-if="isInfo" />
             <LocationLogList v-else />
