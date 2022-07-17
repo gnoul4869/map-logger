@@ -26,6 +26,7 @@ localStorage.getItem('locationLogList') &&
     locationLogList.value.push(...JSON.parse(localStorage.getItem('locationLogList') as string));
 
 const showLogModal = ref(false);
+const currentLocationLog = ref<LocationLog | null>(null);
 
 const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
     map = L.map('map').setView([latitude, longtitude], DEFAULT_ZOOM_LEVEL);
@@ -34,9 +35,10 @@ const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number =
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map as L.Map);
 
-    map.on('click', (mE) => {
+    map.on('click', (e: L.LeafletMouseEvent) => {
+        mapEvent = e;
+
         if (!showLogModal.value) {
-            mapEvent = mE;
             showLogModal.value = true;
         }
     });
@@ -54,6 +56,7 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
     const markerOptions = {
         draggable: false,
         keyboard: false,
+        riseOnHover: true,
         title: label,
     };
 
@@ -65,7 +68,7 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
         maxWidth: 300,
     });
 
-    L.marker([coordinates.latitude, coordinates.longtitude], markerOptions)
+    const marker = L.marker([coordinates.latitude, coordinates.longtitude], markerOptions)
         .addTo(map as L.Map)
         .bindPopup(popup)
         .setPopupContent(label)
@@ -75,6 +78,23 @@ const addMarker = (label: string, color: string, coordinates: Coordinates): void
     if (popupContentWrapper) {
         popupContentWrapper.style.borderLeft = `0.3125rem solid ${color}`;
     }
+
+    // Remove all click events from the marker
+    marker.off('click');
+
+    marker.on('click', (e: L.LeafletMouseEvent) => {
+        mapEvent = e;
+
+        if (!e.target.isPopupOpen()) return e.target.openPopup();
+
+        const locationLog = locationLogList.value.find(
+            (ll) => ll.coordinates.latitude === e.latlng.lat && ll.coordinates.longtitude === e.latlng.lng
+        );
+
+        if (locationLog) {
+            currentLocationLog.value = locationLog;
+        }
+    });
 };
 
 const addLocation = (label: string, color: string, log: string): void => {
@@ -114,5 +134,5 @@ watch(
 );
 
 export default function useMap() {
-    return { initializeMap, showLogModal, addMarker, addLocation, moveToCoordinates, locationLogList };
+    return { initializeMap, showLogModal, addMarker, addLocation, moveToCoordinates, locationLogList, currentLocationLog };
 }

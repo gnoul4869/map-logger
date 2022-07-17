@@ -1,7 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import useMap from '@/composables/useMap';
+import { onMounted, ref } from 'vue';
+
+const { currentLocationLog } = useMap();
+</script>
 
 <template>
-    <div class="panel-placeholder">
+    <div v-if="currentLocationLog" class="main-container">
+        <h1
+            class="title"
+            :style="{
+                borderTop: `.0625rem solid ${currentLocationLog.color}`,
+                borderBottom: `.0625rem solid ${currentLocationLog.color}`,
+            }"
+        >
+            {{ currentLocationLog.label }}
+        </h1>
+        <div class="coordinates-container">
+            <div><span class="text-begonia">Latitude:</span> {{ currentLocationLog.coordinates.latitude }}</div>
+            <div><span class="text-begonia">Longtitude:</span> {{ currentLocationLog.coordinates.longtitude }}</div>
+        </div>
+        <p class="italic">"{{ currentLocationLog.log }}"</p>
+    </div>
+    <div v-else class="panel-placeholder">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" viewBox="0 0 20 20" fill="currentColor">
             <path
                 fill-rule="evenodd"
@@ -15,4 +36,35 @@
 
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
+
+.main-container {
+    width: 100%;
+    max-height: 80%;
+    padding: 0 15px;
+    color: gainsboro;
+
+    .title {
+        padding: 5px 0;
+        margin-bottom: 0.3125rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: $fa-white;
+        text-align: center;
+        border-top: 0.0625rem solid;
+    }
+
+    .coordinates-container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap-reverse;
+        max-width: max-content;
+        margin: 20px auto;
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 1.125rem;
+        color: papayawhip;
+    }
+}
 </style>
