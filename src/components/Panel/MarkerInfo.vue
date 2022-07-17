@@ -12,7 +12,7 @@ const viewHandler = (): void => {
 const deleteHandler = (): void => {
     if (!currentLocationLog.value?.id) return;
 
-    deleteLocationLog(currentLocationLog.value.id);
+    deleteLocationLog(currentLocationLog.value);
 };
 </script>
 

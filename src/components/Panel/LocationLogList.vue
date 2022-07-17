@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import useMap from '@/composables/useMap';
+
 import type { LocationLog } from '@/composables/useMap';
 
 const { moveToCoordinates, deleteLocationLog, locationLogList } = useMap();
@@ -34,7 +35,7 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
 const clickHandler = (e: Event, locationLog: LocationLog): void => {
     const target = e.target as HTMLElement;
     if (target.classList.contains('delete')) {
-        return deleteLocationLog(locationLog.id);
+        return deleteLocationLog(locationLog);
     }
 
     moveToCoordinates(locationLog.coordinates);

@@ -138,10 +138,12 @@ const addLocationLog = (label: string, color: string, log: string): void => {
     addMarker(label, color, coordinates);
 };
 
-const deleteLocationLog = (id: number): void => {
-    currentLocationLog.value?.id === id && (currentLocationLog.value = null);
+const deleteLocationLog = (locationLog: LocationLog): void => {
+    moveToCoordinates(locationLog.coordinates);
 
-    locationLogList.value = locationLogList.value.filter((locationLog) => locationLog.id !== id);
+    currentLocationLog.value?.id === locationLog.id && (currentLocationLog.value = null);
+
+    locationLogList.value = locationLogList.value.filter((ll) => ll.id !== locationLog.id);
 
     initializeMarkers();
 };
