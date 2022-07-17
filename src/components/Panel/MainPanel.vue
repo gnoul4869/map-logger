@@ -56,18 +56,18 @@ const onNavTabHandler = (isInfoTab: boolean) => {
         position: absolute;
         bottom: 0;
         left: 50%;
-        font-weight: 300;
+        font-weight: 400;
         color: gainsboro;
         transform: translate(-50%, -50%);
 
         a {
-            font-weight: 500;
+            font-weight: 600;
             color: inherit;
             text-decoration: none;
             transition: color 0.4s ease-out;
         }
         a:hover {
-            color: #0faf87;
+            color: $v-green;
         }
     }
 }
