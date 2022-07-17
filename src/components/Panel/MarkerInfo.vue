@@ -1,19 +1,8 @@
 <script setup lang="ts">
 import useMap from '@/composables/useMap';
+import type { Coordinates, LocationLog } from '@/composables/useMap';
 
 const { moveToCoordinates, deleteLocationLog, currentLocationLog } = useMap();
-
-const viewHandler = (): void => {
-    if (!currentLocationLog.value?.coordinates) return;
-
-    moveToCoordinates(currentLocationLog.value.coordinates, 18);
-};
-
-const deleteHandler = (): void => {
-    if (!currentLocationLog.value?.id) return;
-
-    deleteLocationLog(currentLocationLog.value);
-};
 </script>
 
 <template>
@@ -34,8 +23,8 @@ const deleteHandler = (): void => {
             </div>
             <p class="italic">"{{ currentLocationLog.log }}"</p>
             <div class="btn-container">
-                <button @click="viewHandler">View on map</button>
-                <button @click="deleteHandler">Delete</button>
+                <button @click="moveToCoordinates(currentLocationLog?.coordinates as Coordinates, 18)">View on map</button>
+                <button @click="deleteLocationLog(currentLocationLog as LocationLog)">Delete</button>
             </div>
         </div>
         <div v-else class="panel-placeholder">
