@@ -12,11 +12,12 @@ const truncate = (str: string) => {
     <div class="main-container">
         <div v-if="locationLogList.length">
             <div
-                v-for="locationLog in locationLogList.slice().reverse()"
+                v-for="(locationLog, index) in locationLogList.slice().reverse()"
                 :key="locationLog.id"
                 class="log-container"
                 :style="{ borderLeft: `.3125rem solid ${locationLog.color}` }"
             >
+                <div class="id">#{{ locationLogList.length - index }}</div>
                 <h1 class="title">{{ locationLog.label }}</h1>
                 <div class="text-start ml-2">
                     <div><span class="text-begonia">Latitude:</span> {{ locationLog.coordinates.latitude }}</div>
@@ -47,6 +48,7 @@ const truncate = (str: string) => {
 }
 
 .log-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,6 +65,15 @@ const truncate = (str: string) => {
     background-color: $metal-black;
     border: 0.0625rem solid gainsboro;
     border-radius: 0.625rem;
+
+    .id {
+        position: absolute;
+        top: 0.1875rem;
+        left: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 300;
+        color: $taupe-gray;
+    }
 
     .title {
         margin-bottom: 0.3125rem;
