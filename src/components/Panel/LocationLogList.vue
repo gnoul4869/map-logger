@@ -14,7 +14,7 @@ watch(numberOfLocations, (newValue, oldValue): void => {
 });
 
 const truncate = (str: string) => {
-    return str.length <= 90 ? str : str.substring(0, 90) + '...';
+    return str.length <= 40 ? str : str.substring(0, 40) + '...';
 };
 
 const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
@@ -45,11 +45,11 @@ const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
             >
                 <div class="id">#{{ locationLogList.length - index }}</div>
                 <h1 class="title">{{ locationLog.label }}</h1>
-                <div class="text-start ml-2">
+                <div class="text-sm text-start ml-2">
                     <div><span class="text-begonia">Latitude:</span> {{ locationLog.coordinates.latitude }}</div>
                     <div><span class="text-begonia">Longtitude:</span> {{ locationLog.coordinates.longtitude }}</div>
                 </div>
-                <!-- <p class="italic">"{{ truncate(locationLog.log) }}"</p> -->
+                <p class="italic">"{{ truncate(locationLog.log) }}"</p>
             </div>
         </div>
         <div v-else class="panel-placeholder">
