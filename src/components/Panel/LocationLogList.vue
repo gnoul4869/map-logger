@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import useMap from '@/composables/useMap';
 
-const { locationLogList } = useMap();
+const { moveToCoordinates, locationLogList } = useMap();
 
 const mainContainer = ref<HTMLElement | null>(null);
 const numberOfLocations = computed(() => locationLogList.value.length);
@@ -16,6 +16,19 @@ watch(numberOfLocations, (newValue, oldValue): void => {
 const truncate = (str: string) => {
     return str.length <= 90 ? str : str.substring(0, 90) + '...';
 };
+
+const setBorderColor = (e: MouseEvent, color: string, isOnEnter: boolean) => {
+    const target = e.target as HTMLElement;
+
+    if (!target) return;
+
+    if (isOnEnter) {
+        target.style.border = `0.0625rem solid ${color}`;
+    } else {
+        target.style.border = `0.0625rem solid gainsboro`;
+        target.style.borderLeft = `.3125rem solid ${color}`;
+    }
+};
 </script>
 
 <template>
@@ -26,6 +39,8 @@ const truncate = (str: string) => {
                 :key="locationLog.id"
                 class="log-container"
                 :style="{ borderLeft: `.3125rem solid ${locationLog.color}` }"
+                @mouseenter="setBorderColor($event, locationLog.color, true)"
+                @mouseleave="setBorderColor($event, locationLog.color, false)"
             >
                 <div class="id">#{{ locationLogList.length - index }}</div>
                 <h1 class="title">{{ locationLog.label }}</h1>
@@ -72,9 +87,15 @@ const truncate = (str: string) => {
     line-height: 1.5;
     color: gainsboro;
     text-align: center;
+    cursor: pointer;
     background-color: $metal-black;
     border: 0.0625rem solid gainsboro;
     border-radius: 0.625rem;
+    transition: border 0.25s ease-in-out;
+
+    // &:hover {
+    //     border: 1px solid $sienna;
+    // }
 
     .id {
         position: absolute;

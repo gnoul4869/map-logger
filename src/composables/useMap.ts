@@ -3,6 +3,7 @@ import L from 'leaflet';
 
 const DEFAULT_LATITUDE = 9.284059;
 const DEFAULT_LONGITUDE = 105.724953;
+const DEFAULT_ZOOM_LEVEL = 16;
 
 type Coordinates = {
     latitude: number;
@@ -26,16 +27,8 @@ localStorage.getItem('locationLogList') &&
 
 const showLogModal = ref(false);
 
-const initializeMarkers = (): void => {
-    if (!map || !locationLogList.value.length) return;
-
-    locationLogList.value.forEach((locationLog) => {
-        addMarker(locationLog.label, locationLog.color, locationLog.coordinates);
-    });
-};
-
 const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
-    map = L.map('map').setView([latitude, longtitude], 16);
+    map = L.map('map').setView([latitude, longtitude], DEFAULT_ZOOM_LEVEL);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -48,7 +41,11 @@ const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number =
         }
     });
 
-    initializeMarkers();
+    if (locationLogList.value.length) {
+        locationLogList.value.forEach((locationLog) => {
+            addMarker(locationLog.label, locationLog.color, locationLog.coordinates);
+        });
+    }
 };
 
 const addMarker = (label: string, color: string, coordinates: Coordinates): void => {
@@ -102,6 +99,12 @@ const addLocation = (label: string, color: string, log: string): void => {
     addMarker(label, color, coordinates);
 };
 
+const moveToCoordinates = (coordinates: Coordinates): void => {
+    if (!map) return;
+
+    map.setView([coordinates.latitude, coordinates.longtitude], DEFAULT_ZOOM_LEVEL);
+};
+
 watch(
     locationLogList,
     () => {
@@ -111,5 +114,5 @@ watch(
 );
 
 export default function useMap() {
-    return { initializeMap, showLogModal, addMarker, addLocation, locationLogList };
+    return { initializeMap, showLogModal, addMarker, addLocation, moveToCoordinates, locationLogList };
 }
