@@ -13,6 +13,7 @@ module.exports = {
                 'taupe-gray': '#888888',
                 sienna: '#E46F46',
                 begonia: '#f87171',
+                'v-green': '#0faf87',
             },
         },
     },

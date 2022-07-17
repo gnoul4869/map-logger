@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import useMap from '@/composables/useMap';
-import { onMounted, ref } from 'vue';
 
 const { currentLocationLog } = useMap();
 </script>

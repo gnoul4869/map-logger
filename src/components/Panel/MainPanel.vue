@@ -19,6 +19,10 @@ const onNavTabHandler = (isInfoTab: boolean) => {
             <MarkerInfo v-if="isInfo" />
             <LocationLogList v-else />
         </Transition>
+        <div class="credit">
+            Created by
+            <a href="https://github.com/gnoul4869" target="_blank">gnoul_</a>
+        </div>
     </div>
 </template>
 
@@ -40,10 +44,30 @@ const onNavTabHandler = (isInfoTab: boolean) => {
         margin-top: 20px;
         font-size: 1.5rem;
         font-weight: bold;
+
         color: $fa-white;
 
         &::first-letter {
             color: $sienna;
+        }
+    }
+
+    .credit {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        font-weight: 300;
+        color: gainsboro;
+        transform: translate(-50%, -50%);
+
+        a {
+            font-weight: 500;
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.4s ease-out;
+        }
+        a:hover {
+            color: #0faf87;
         }
     }
 }
