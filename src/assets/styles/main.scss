@@ -21,9 +21,10 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: max-content;
+    width: fit-content;
     font-size: 0.9375rem;
     color: $taupe-gray;
+    text-align: center;
     transform: translate(-50%, -50%);
 }
 

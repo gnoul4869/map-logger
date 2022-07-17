@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import InfoPanel from '@/components/Panel/MainPanel.vue';
+import MainPanel from '@/components/Panel/MainPanel.vue';
 import LeafletMap from '@/components/Map/LeafletMap.vue';
 </script>
 
 <template>
     <div class="wrapper">
-        <InfoPanel />
+        <MainPanel />
         <LeafletMap />
     </div>
 </template>
@@ -16,11 +16,10 @@ import LeafletMap from '@/components/Map/LeafletMap.vue';
 .wrapper {
     display: grid;
     grid-template-columns: 25% 75%;
-    gap: 0;
     min-width: 62.5rem;
     min-height: 100vh;
+    max-height: 100vh;
     padding: 1rem;
-    color: $fa-white;
     background-color: $dark;
 }
 </style>

@@ -19,9 +19,20 @@ type LocationLog = {
 
 let map: L.Map | null = null;
 let mapEvent: L.LeafletMouseEvent | null = null;
+
 const locationLogList = ref<LocationLog[]>([]);
+localStorage.getItem('locationLogList') &&
+    locationLogList.value.push(...JSON.parse(localStorage.getItem('locationLogList') as string));
 
 const showLogModal = ref(false);
+
+const initializeMarkers = (): void => {
+    if (!map || !locationLogList.value.length) return;
+
+    locationLogList.value.forEach((locationLog) => {
+        addMarker(locationLog.label, locationLog.color, locationLog.coordinates);
+    });
+};
 
 const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number = DEFAULT_LONGITUDE): void => {
     map = L.map('map').setView([latitude, longtitude], 16);
@@ -36,10 +47,12 @@ const initializeMap = (latitude: number = DEFAULT_LATITUDE, longtitude: number =
             showLogModal.value = true;
         }
     });
+
+    initializeMarkers();
 };
 
 const addMarker = (label: string, color: string, coordinates: Coordinates): void => {
-    if (!map || !mapEvent) return;
+    if (!map) return;
 
     const markerOptions = {
         draggable: false,
@@ -86,16 +99,13 @@ const addLocation = (label: string, color: string, log: string): void => {
     };
 
     locationLogList.value.push(locationLog);
+    addMarker(label, color, coordinates);
 };
 
 watch(
     locationLogList,
     () => {
-        const newLocation = locationLogList.value.at(-1);
-        if (!newLocation) return;
-
-        const { label, color, coordinates } = newLocation;
-        addMarker(label, color, coordinates);
+        localStorage.setItem('locationLogList', JSON.stringify(locationLogList.value));
     },
     { deep: true }
 );

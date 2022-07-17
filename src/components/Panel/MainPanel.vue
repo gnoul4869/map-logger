@@ -30,6 +30,7 @@ const onNavTabHandler = (isInfoTab: boolean) => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-height: calc(100vh - 2rem);
     font-weight: 500;
     background-color: $metal-black;
     border-top-left-radius: 0.625rem;
