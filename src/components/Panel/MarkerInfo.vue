@@ -21,7 +21,7 @@ const { moveToCoordinates, deleteLocationLog, currentLocationLog } = useMap();
                 <div><span class="text-begonia">Latitude:</span> {{ currentLocationLog.coordinates.latitude }}</div>
                 <div><span class="text-begonia">Longtitude:</span> {{ currentLocationLog.coordinates.longtitude }}</div>
             </div>
-            <p class="italic">"{{ currentLocationLog.log }}"</p>
+            <p>"{{ currentLocationLog.log }}"</p>
             <div class="btn-container">
                 <button @click="moveToCoordinates(currentLocationLog?.coordinates as Coordinates, 18)">View on map</button>
                 <button @click="deleteLocationLog(currentLocationLog as LocationLog)">Delete</button>
@@ -69,7 +69,10 @@ const { moveToCoordinates, deleteLocationLog, currentLocationLog } = useMap();
     }
 
     p {
+        width: max-content;
+        margin: 0 auto;
         font-size: 1.125rem;
+        font-style: italic;
         color: papayawhip;
     }
 
